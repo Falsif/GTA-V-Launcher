@@ -1,0 +1,43 @@
+[package]
+name = "gtav-launcher"
+version = "1.0.0"
+description = "GTA V Launcher — неофициальный лаунчер для GTA V Legacy и Enhanced"
+authors = ["LUNEXA"]
+edition = "2021"
+rust-version = "1.77"
+
+[lib]
+name = "gtav_launcher_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-single-instance = "2"
+tauri-plugin-global-shortcut = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+dirs = "6"
+sysinfo = { version = "0.37", default-features = false, features = ["system"] }
+zip = { version = "2", default-features = false, features = ["deflate"] }
+walkdir = "2"
+pelite = "0.10"
+regex = "1"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+base64 = "0.22"
+uuid = { version = "1", features = ["v4"] }
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.55"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
