@@ -4,6 +4,7 @@
 mod config;
 mod detect;
 mod game_settings;
+mod install;
 mod launch;
 mod mods;
 mod tools;
@@ -202,6 +203,20 @@ fn verify_game(
 #[tauri::command(async)]
 fn mods_preflight(state: State<AppState>, edition: Edition) -> mods::Preflight {
     mods::preflight(&state, edition)
+}
+
+#[tauri::command(async)]
+fn system_check() -> install::SystemCheck {
+    install::system_check()
+}
+
+#[tauri::command(async)]
+fn install_game(
+    app: AppHandle,
+    edition: Edition,
+    store: String,
+) -> CmdResult<install::InstallStart> {
+    install::start_install(&app, edition, &store)
 }
 
 // ======================= Моды =======================
@@ -737,6 +752,8 @@ pub fn run() {
             launch_game,
             verify_game,
             mods_preflight,
+            system_check,
+            install_game,
             inspect_mod,
             install_mod,
             enable_mod,

@@ -14,6 +14,7 @@ import type {
   ModWarning,
   NewsResult,
   RunningStatus,
+  SystemCheck,
   Source,
   UpdateInfo,
   VerifyResult,
@@ -31,6 +32,10 @@ export const api = {
   clearGamePath: (edition: Edition) => invoke<Config>("clear_game_path", { edition }),
   setGameSource: (edition: Edition, source: Source) => invoke<Config>("set_game_source", { edition, source }),
   setEdition: (edition: Edition) => invoke<Config>("set_selected_edition", { edition }),
+
+  systemCheck: () => invoke<SystemCheck>("system_check"),
+  installGame: (edition: Edition, store: string) =>
+    invoke<{ opened: boolean; message: string }>("install_game", { edition, store }),
 
   launch: (edition: Edition) => invoke<string>("launch_game", { edition }),
   verify: (edition: Edition) => invoke<VerifyResult>("verify_game", { edition }),

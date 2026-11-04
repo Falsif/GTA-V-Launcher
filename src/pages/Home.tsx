@@ -17,10 +17,12 @@ import {
   Tag,
   Store,
   Rocket,
+  Download,
 } from "lucide-react";
 import { api, errText } from "../api";
 import { useApp } from "../state";
 import { EditionSwitch } from "../components/ui";
+import InstallDialog from "../components/InstallDialog";
 import {
   EDITION_TITLE,
   SOURCE_TITLE,
@@ -56,6 +58,7 @@ export default function HomePage() {
   const [newsError, setNewsError] = useState<string | null>(null);
   const [newsLoading, setNewsLoading] = useState(false);
   const [detecting, setDetecting] = useState(false);
+  const [showInstall, setShowInstall] = useState(false);
   const gi = info[edition];
   const stats = config?.stats[edition];
   const inst = config?.installs[edition];
@@ -179,12 +182,15 @@ export default function HomePage() {
           ) : (
             <div className="hero-find">
               <p>
-                Лаунчер ищет игру в Steam, Epic Games и Rockstar Games Launcher. Если игра установлена в другом месте,
-                укажите папку вручную.
+                Лаунчер ищет игру в Steam, Epic Games и Rockstar Games Launcher. Если игры ещё нет на компьютере, нажмите
+                «Установить GTA V» — лаунчер проверит место на дисках и откроет установку в официальном клиенте.
               </p>
               <div className="hero-actions">
                 <button className="btn-play" onClick={runDetect} disabled={detecting}>
                   <Search size={24} /> {detecting ? "ПОИСК…" : "НАЙТИ GTA V"}
+                </button>
+                <button className="btn btn-glass" onClick={() => setShowInstall(true)}>
+                  <Download size={17} /> Установить GTA V
                 </button>
                 <button className="btn btn-glass" onClick={chooseFolder}>
                   <FolderSearch size={17} /> Указать папку
@@ -290,6 +296,7 @@ export default function HomePage() {
           {news && news.items.length === 0 && <p className="muted">Новостей пока нет.</p>}
         </section>
       </div>
+      {showInstall && <InstallDialog onClose={() => setShowInstall(false)} />}
     </div>
   );
 }

@@ -174,3 +174,23 @@ export interface VerifyResult {
   started: boolean;
   message: string;
 }
+
+export interface DriveInfo {
+  mount: string;
+  free_gb: number;
+  total_gb: number;
+  enough: boolean;
+  removable: boolean;
+}
+
+export interface SystemCheck {
+  cpu: string;
+  cores: number;
+  ram_gb: number;
+  gpus: string[];
+  drives: DriveInfo[];
+  os: string;
+  steam: boolean;
+  epic: boolean;
+  rockstar: boolean;
+}
